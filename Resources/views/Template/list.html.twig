@@ -1,0 +1,122 @@
+{% set isIndex = tmpl == 'index' ? true : false %}
+{% set tmpl = 'list' %}
+
+{% extends isIndex ? '@MauticCore/Default/content.html.twig' : '@MauticCore/Default/raw_output.html.twig' %}
+{% block mauticContent %}rssplus_template{% endblock %}
+{% block headerTitle %}RSS Plus Templates{% endblock %}
+
+{% block content %}
+    {% if isIndex %}
+    <div id="page-list-wrapper" class="panel panel-default">
+        {{- include('@MauticCore/Helper/list_toolbar.html.twig', {
+            'searchValue': searchValue,
+            'action': currentRoute,
+            'list_actions': include('@MauticCore/Helper/toolbar_page_actions.html.twig', {
+                'templateButtons': {
+                    'new': true,
+                },
+                'routeBase': 'rssplus_template',
+                'langVar': 'rssplus.template',
+            }),
+        }) -}}
+            <div class="page-list">
+                {{ block('listResults') }}
+            </div>
+    </div>
+    {% else %}
+        {{ block('listResults') }}
+    {% endif %}
+{% endblock %}
+
+{% block listResults %}
+<div class="table-responsive">
+    <table class="table table-hover template-list" id="templateTable">
+        <thead>
+        <tr>
+            {{- include('@MauticCore/Helper/tableheader.html.twig',
+                {
+                    'checkall'        : 'true',
+                    'target'          : '#templateTable',
+                    'langVar'         : 'rssplus.template',
+                    'routeBase'       : 'rssplus_template',
+                    'templateButtons' : {
+                        'delete' : true,
+                    },
+                }
+            ) -}}
+
+            {{- include(
+                '@MauticCore/Helper/tableheader.html.twig',
+                {
+                    'sessionVar' : 'rssplus.template',
+                    'orderBy'    : 't.name',
+                    'text'       : 'Template Name',
+                    'class'      : 'col-template-name',
+                    'default'    : true,
+                }
+            ) -}}
+
+            {{- include('@MauticCore/Helper/tableheader.html.twig',
+                {
+                    'sessionVar' : 'rssplus.template',
+                    'orderBy'    : 't.createdAt',
+                    'text'       : 'Create Date',
+                    'class'      : 'visible-md visible-lg col-template-created',
+                }
+            ) -}}
+
+            {{- include('@MauticCore/Helper/tableheader.html.twig',
+                {
+                    'sessionVar' : 'rssplus.template',
+                    'orderBy'    : 't.id',
+                    'text'       : 'mautic.core.id',
+                    'class'      : 'visible-md visible-lg col-template-id',
+                }
+            ) -}}
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>
+                    {{- include('@MauticCore/Helper/list_actions.html.twig',
+                        {
+                            'item'            : item,
+                            'templateButtons' : {
+                                'edit'   : true,
+                                'delete' : true,
+                            },
+                            'routeBase' : 'rssplus_template',
+                            'langVar'   : 'rssplus.template',
+                            'pull'      : 'left',
+                        }) -}}
+                </td>
+                <td>
+                    <a href="{{ path('mautic_rssplus_template_action',
+                        {'objectAction' : 'edit', 'objectId' : item.getId()}) }}" data-toggle="ajax">
+                        {{ item.getName() }}
+                    </a>
+                </td>
+                <td class="visible-md visible-lg">
+                    {{ item.getCreatedAt()|date('Y-m-d H:i') }}
+                </td>
+                <td class="visible-md visible-lg">
+                    {{ item.getId() }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="panel-footer">
+    {{- include('@MauticCore/Helper/pagination.html.twig',
+        {
+            'totalItems' : items|length,
+            'page'       : page,
+            'limit'      : limit,
+            'baseUrl'    : path('mautic_rssplus_template_index'),
+            'sessionVar' : 'rssplus.template',
+        }
+    ) -}}
+</div>
+{% endblock %}

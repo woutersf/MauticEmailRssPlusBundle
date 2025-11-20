@@ -1,0 +1,53 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+{% block mauticContent %}rssplus_feed{% endblock %}
+
+{% set objectId = form.vars.data.getId() %}
+{% if objectId is not empty %}
+    {% set name = form.vars.data.getName() %}
+    {% set header = 'Edit Feed: ' ~ name %}
+{% else %}
+    {% set header = 'New RSS Feed' %}
+{% endif %}
+
+{% block headerTitle %}{{ header }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="box-layout">
+        <div class="col-xs-12 height-auto bg-white">
+            <div class="pa-md">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.machineName) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.rssUrl) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.rssFields) }}
+                        <p class="help-block">Enter the RSS fields to extract, one per line. Common fields: title, link, description, category, pubDate, media</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.button) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.token) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide">
+        {{ form_rest(form) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

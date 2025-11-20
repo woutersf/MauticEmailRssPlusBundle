@@ -1,0 +1,20 @@
+{
+    "name": "mautic/email-rss-plus-bundle",
+    "description": "Advanced RSS feed management for Mautic emails",
+    "type": "mautic-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frederik Wouters"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MauticPlugin\\MauticEmailRssPlusBundle\\": ""
+        }
+    }
+}

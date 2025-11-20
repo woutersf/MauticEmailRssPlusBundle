@@ -1,0 +1,37 @@
+{% extends '@MauticCore/Default/content.html.twig' %}
+{% block mauticContent %}rssplus_template{% endblock %}
+
+{% set objectId = form.vars.data.getId() %}
+{% if objectId is not empty %}
+    {% set name = form.vars.data.getName() %}
+    {% set header = 'Edit Template: ' ~ name %}
+{% else %}
+    {% set header = 'New RSS Template' %}
+{% endif %}
+
+{% block headerTitle %}{{ header }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="box-layout">
+        <div class="col-xs-12 height-auto bg-white">
+            <div class="pa-md">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.name) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.content) }}
+                        <p class="help-block">You can use tokens in the template to insert RSS field values. Available tokens: {title}, {link}, {description}, {category}, {pubDate}, {media}. Each selected RSS item will be rendered using this template with tokens replaced by actual values.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide">
+        {{ form_rest(form) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
