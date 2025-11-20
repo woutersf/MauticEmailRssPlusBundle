@@ -1,6 +1,6 @@
 # Mautic Email RSS Plus Bundle
 
-![RSS Plus Icon](Assets/rss-icon.png)
+<img src="Assets/rss-icon.png" alt="RSS Plus Icon" width="200"/>
 
 Advanced RSS feed management for Mautic emails with powerful GrapeJS integration and dynamic content tokens.
 
